@@ -1,0 +1,11 @@
+INSERT INTO products (name, description, price, image, size, team, season, stock, active) VALUES 
+('Paris Saint-Germain Home Jersey', 'Official PSG home jersey with classic navy blue design', 89.99, 'https://via.placeholder.com/300x400/003366/ffffff?text=PSG+Home', 'M', 'Paris Saint-Germain', '2023-24', 15, true),
+('Real Madrid Home Jersey', 'Iconic all-white Real Madrid home jersey', 94.99, 'https://via.placeholder.com/300x400/ffffff/000000?text=Real+Madrid', 'L', 'Real Madrid', '2023-24', 20, true),
+('FC Barcelona Home Jersey', 'Traditional Barcelona home jersey in blaugrana colors', 92.99, 'https://via.placeholder.com/300x400/004d98/fcb216?text=FC+Barcelona', 'M', 'FC Barcelona', '2023-24', 12, true),
+('Manchester United Home Jersey', 'Classic red Manchester United home jersey', 87.99, 'https://via.placeholder.com/300x400/cc0000/ffffff?text=Man+United', 'L', 'Manchester United', '2023-24', 18, true),
+('Liverpool FC Home Jersey', 'Liverpool home jersey in signature red', 85.99, 'https://via.placeholder.com/300x400/c8102e/ffffff?text=Liverpool+FC', 'M', 'Liverpool FC', '2023-24', 22, true),
+('Bayern Munich Home Jersey', 'Bayern Munich home jersey in classic red and white', 91.99, 'https://via.placeholder.com/300x400/dc052d/ffffff?text=Bayern+Munich', 'XL', 'Bayern Munich', '2023-24', 14, true),
+('Juventus Home Jersey', 'Iconic black and white striped Juventus jersey', 88.99, 'https://via.placeholder.com/300x400/000000/ffffff?text=Juventus', 'L', 'Juventus', '2023-24', 16, true),
+('AC Milan Home Jersey', 'AC Milan home jersey with classic red and black stripes', 86.99, 'https://via.placeholder.com/300x400/ac1e2d/000000?text=AC+Milan', 'M', 'AC Milan', '2023-24', 19, true),
+('Chelsea FC Home Jersey', 'Chelsea home jersey in royal blue', 89.99, 'https://via.placeholder.com/300x400/034694/ffffff?text=Chelsea+FC', 'L', 'Chelsea FC', '2023-24', 13, true),
+('Arsenal FC Home Jersey', 'Arsenal home jersey in classic red with white sleeves', 87.99, 'https://via.placeholder.com/300x400/ef0107/ffffff?text=Arsenal+FC', 'M', 'Arsenal FC', '2023-24', 17, true);

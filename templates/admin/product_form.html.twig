@@ -1,0 +1,248 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.id ? 'Edit' : 'Add' }} Product - Admin{% endblock %}
+
+{% block body %}
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    {{ product.id ? 'Edit' : 'Add' }} Product
+                </h2>
+                <div class="text-muted mt-1">{{ product.id ? 'Update product information' : 'Add a new product to your shop' }}</div>
+            </div>
+            <div class="col-auto ms-auto d-print-none">
+                <div class="btn-list">
+                    <a href="{{ path('admin_dashboard') }}" class="btn">
+                        <i class="ti ti-arrow-left"></i>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Product Information</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="mb-3">
+                                    {{ form_label(form.name) }}
+                                    {{ form_widget(form.name) }}
+                                    {{ form_errors(form.name) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    {{ form_label(form.size) }}
+                                    {{ form_widget(form.size) }}
+                                    {{ form_errors(form.size) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    {{ form_label(form.team) }}
+                                    {{ form_widget(form.team) }}
+                                    {{ form_errors(form.team) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    {{ form_label(form.season) }}
+                                    {{ form_widget(form.season) }}
+                                    {{ form_errors(form.season) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    {{ form_label(form.price) }}
+                                    {{ form_widget(form.price) }}
+                                    {{ form_errors(form.price) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    {{ form_label(form.stock) }}
+                                    {{ form_widget(form.stock) }}
+                                    {{ form_errors(form.stock) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    <label class="form-label">&nbsp;</label>
+                                    <div class="form-check">
+                                        {{ form_widget(form.active) }}
+                                        {{ form_label(form.active, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                                    </div>
+                                    {{ form_errors(form.active) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.image) }}
+                            {{ form_widget(form.image) }}
+                            {{ form_errors(form.image) }}
+                            <div class="form-hint">Enter a URL for the product image. You can use placeholder URLs like: <code>https://via.placeholder.com/300x400/007acc/ffffff?text=Jersey</code></div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <div class="d-flex">
+                            <a href="{{ path('admin_dashboard') }}" class="btn btn-link">Cancel</a>
+                            <button type="submit" class="btn btn-primary ms-auto">
+                                <i class="ti ti-device-floppy"></i>
+                                {{ product.id ? 'Update' : 'Create' }} Product
+                            </button>
+                        </div>
+                    </div>
+                    
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Preview</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="product-preview">
+                            <div class="mb-3">
+                                <div class="ratio ratio-21x9 jersey-image" id="image-preview">
+                                    <div class="d-flex align-items-center justify-content-center text-muted">
+                                        <i class="ti ti-photo ti-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 id="name-preview">Product Name</h4>
+                            <p class="text-muted" id="team-season-preview">Team - Season</p>
+                            <p class="text-muted" id="description-preview">Product description...</p>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Size: <strong id="size-preview">-</strong></span>
+                                <span class="text-muted">Stock: <strong id="stock-preview">0</strong></span>
+                            </div>
+                            <div class="h3 mt-2" id="price-preview">€0.00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h4>Tips</h4>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="ti ti-bulb text-yellow me-2"></i>
+                                Use high-quality images for better customer experience
+                            </li>
+                            <li class="mb-2">
+                                <i class="ti ti-bulb text-yellow me-2"></i>
+                                Include detailed descriptions to help customers decide
+                            </li>
+                            <li class="mb-2">
+                                <i class="ti ti-bulb text-yellow me-2"></i>
+                                Keep stock quantities updated to avoid overselling
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const inputs = {
+        name: form.querySelector('#product_name'),
+        team: form.querySelector('#product_team'),
+        season: form.querySelector('#product_season'),
+        description: form.querySelector('#product_description'),
+        price: form.querySelector('#product_price'),
+        size: form.querySelector('#product_size'),
+        stock: form.querySelector('#product_stock'),
+        image: form.querySelector('#product_image')
+    };
+
+    const previews = {
+        name: document.getElementById('name-preview'),
+        teamSeason: document.getElementById('team-season-preview'),
+        description: document.getElementById('description-preview'),
+        price: document.getElementById('price-preview'),
+        size: document.getElementById('size-preview'),
+        stock: document.getElementById('stock-preview'),
+        image: document.getElementById('image-preview')
+    };
+
+    function updatePreview() {
+        // Update name
+        previews.name.textContent = inputs.name.value || 'Product Name';
+        
+        // Update team and season
+        const team = inputs.team.value || 'Team';
+        const season = inputs.season.value || 'Season';
+        previews.teamSeason.textContent = team + ' - ' + season;
+        
+        // Update description
+        const desc = inputs.description.value || 'Product description...';
+        previews.description.textContent = desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
+        
+        // Update price
+        const price = parseFloat(inputs.price.value) || 0;
+        previews.price.textContent = '€' + price.toFixed(2);
+        
+        // Update size
+        previews.size.textContent = inputs.size.value || '-';
+        
+        // Update stock
+        previews.stock.textContent = inputs.stock.value || '0';
+        
+        // Update image
+        if (inputs.image.value) {
+            previews.image.style.backgroundImage = `url('${inputs.image.value}')`;
+            previews.image.style.backgroundSize = 'cover';
+            previews.image.style.backgroundPosition = 'center';
+            previews.image.innerHTML = '';
+        } else {
+            previews.image.style.backgroundImage = '';
+            previews.image.innerHTML = '<div class="d-flex align-items-center justify-content-center text-muted h-100"><i class="ti ti-photo ti-2x"></i></div>';
+        }
+    }
+
+    // Add event listeners to all inputs
+    Object.values(inputs).forEach(input => {
+        if (input) {
+            input.addEventListener('input', updatePreview);
+            input.addEventListener('change', updatePreview);
+        }
+    });
+
+    // Initial preview update
+    updatePreview();
+});
+</script>
+{% endblock %}

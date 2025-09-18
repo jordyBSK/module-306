@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payment Successful - Football Shop{% endblock %}
+
+{% block body %}
+<div class="page-body">
+    <div class="container-xl d-flex flex-column justify-content-center">
+        <div class="empty">
+            <div class="empty-img">
+                <i class="ti ti-circle-check" style="font-size: 4rem; color: #2fb344;"></i>
+            </div>
+            <p class="empty-title">Payment Successful!</p>
+            <p class="empty-subtitle text-muted">
+                Thank you for your purchase. Your order has been processed successfully.
+            </p>
+            <div class="empty-action">
+                <a href="{{ path('home') }}" class="btn btn-primary">
+                    <i class="ti ti-arrow-left"></i>
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

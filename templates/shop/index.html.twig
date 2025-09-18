@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Football Shop - Home{% endblock %}
+
+{% block body %}
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    Football Jerseys Collection
+                </h2>
+                <div class="text-muted mt-1">Discover our premium collection of football jerseys</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-body">
+    <div class="container-xl">
+        {% if products|length > 0 %}
+            <div class="row row-cards">
+                {% for product in products %}
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card product-card">
+                            <div class="card-img-top img-responsive img-responsive-21x9 jersey-image" 
+                                 style="{% if product.image %}background-image: url('{{ product.image }}'); background-size: cover; background-position: center;{% endif %}">
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">{{ product.name }}</h3>
+                                <div class="text-muted mb-2">
+                                    <strong>{{ product.team }}</strong> - {{ product.season }}
+                                </div>
+                                {% if product.description %}
+                                    <p class="text-muted">{{ product.description|slice(0, 100) }}{% if product.description|length > 100 %}...{% endif %}</p>
+                                {% endif %}
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="text-muted">
+                                        Size: <strong>{{ product.size }}</strong>
+                                    </div>
+                                    <div class="text-muted">
+                                        Stock: <strong>{{ product.stock }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <div class="h2 mb-0">€{{ product.price|number_format(2, '.', ',') }}</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        {% if product.stock > 0 %}
+                                            <button class="btn btn-primary" onclick="addToCart({{ product.id }})">
+                                                <i class="ti ti-shopping-cart-plus"></i>
+                                                Add to Cart
+                                            </button>
+                                        {% else %}
+                                            <button class="btn btn-secondary" disabled>
+                                                Out of Stock
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty">
+                <div class="empty-img">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMTYgNjRDMTYgOTEuMDYxOCAzNy45MzgyIDExMyA2NSAxMTNDOTIuMDYxOCAxMTMgMTE0IDkxLjA2MTggMTE0IDY0QzExNCAzNi45MzgyIDkyLjA2MTggMTUgNjUgMTVDMzcuOTM4MiAxNSAxNiAzNi45MzgyIDE2IDY0Wk02NSAyOUM0Ni4yMjE1IDI5IDMxIDQ0LjIyMTUgMzEgNjNDMzEgODEuNzc4NSA0Ni4yMjE1IDk3IDY1IDk3Qzc5LjMzNDcgOTcgOTEuNzM2NCA4Ny4yNjE5IDk2LjQ5MDYgNzQuMjVIOTNDODkuNjg2MyA4NS4yNSA3OC4xMjUgOTMgNjUgOTNDNDguNDMxNSA5MyAzNSA3OS41Njg1IDM1IDYzQzM1IDQ2LjQzMTUgNDguNDMxNSAzMyA2NSAzM0M3OC4xMjUgMzMgODkuNjg2MyA0MC43NSA5MyA1MS43NUg5Ni40OTA2Qzk3LjY5MDggNDguMDM5NSA5OCA0NC4xMTA3IDk4IDQwQzk4IDMxLjE2MzQgOTAuODM2NiAyNCA4MiAyNEg0OEM0MS4zNzI2IDI0IDM2IDI5LjM3MjYgMzYgMzZWNDhIMzJWMzZDMzIgMjcuMTYzNCAzOS4xNjM0IDIwIDQ4IDIwSDgyQzkyLjQ5MzQgMjAgMTAxIDI4LjUwNjYgMTAxIDM5VjcySDk3VjM5QzkyIDQyLjMxMzQgODQuOTY2NCA0OCA3NSA0OEg1M0M0OS42ODYzIDQ4IDQ3IDUwLjY4NjMgNDcgNTRWNzBINTFWNTRDNTEgNTIuODk1NCA1MS44OTU0IDUyIDUzIDUySDc1Qzc5LjQxODMgNTIgODMgNDguNDE4MyA4MyA0NFYzNkg3OVY0NEg1M0M0Ni4zNzI2IDQ0IDQzIDQ3LjM3MjYgNDMgNTRWNzRDNDMgODAuNjI3NCA0OC4zNzI2IDg2IDU1IDg2SDc1Qzc5LjQxODMgODYgODMgODIuNDE4MyA4MyA3OFY3NEg3OVY3OEg1NUgxMTlWNzRIMTE1Vjc4SDExMUM5OCA3OCA4NyA2Ny4wNiA4NyA1NEg4M1Y1NEg3OVY3NEg3NUg1NVY3MEg3NVY1NEg3M1Y1OEg2OVY1NEg2NVY1OEg2MVY1NEg1N1Y1OEg1M1Y1NEg0OVY1OEg0NVY1NEg0MVY1OEgzN1Y1NEgzM1Y1OEgyOVY1NEgyNVY1OEgyMVY1NEgxN1Y1OEgxM1Y1NEg5VjU4SDVWNTRIMVY1OEgzSDE5SDUzVjU0SDU3VjUwSDYxVjU0SDY1VjUwSDY5VjU0SDczVjUwSDc3VjU0SDc5VjU4SDgzVjU0SDg3VjU4SDg5SDkxSDk1VjU0SDk5VjU4SDEwM1Y1NEgxMDdWNThIMTExVjU0SDExNVY1OEgxMTlWNTRIMTIzVjU4SDEyN1Y1NEgxMjNWNTBIMTE5VjU0SDExNVY1MEgxMTFWNTRIMTA3VjUwSDEwM1Y1NEg5OVY1MEg5NVY1NEg5MVY1MEg4OVY1NEg4N1Y1MEg4M1Y1NEg3OVY1MEg3N1Y1NEg3M1Y1MEg3N1Y0Nkg3M1Y1MEg2OVY0Nkg2NVY1MEg2MVY0Nkg1N1Y1MEg1M1Y0Nkg0OVY1MEg0NVY0Nkg0MVY1MEgzN1Y0NkgzM1Y1MEgyOVY0NkgyNVY1MEgyMVY0NkgxN1Y1MEgxM1Y0Nkg5VjUwSDVWNDZIMVY1MEgzSDVWNDZIOVY0Mkg5VjQ2SDEzVjQySDEzVjQ2SDE3VjQyUDE3VjQ2SDIxVjQySDIxVjQ2SDI1VjQySDI1VjQ2SDI5VjQySDI5VjQ2SDMzVjQySDMzVjQ2SDM3VjQySDM3VjQ2SDQxVjQySDQxVjQ2SDQ1VjQySDQ1VjQ2SDQ5VjQySDQ5VjQ2SDUzVjQySDUzVjQ2SDU3VjQySDU3VjQ2SDYxVjQySDYxVjQ2SDY1VjQySDY1VjQ2SDY5VjQySDY5VjQ2SDczVjQySDczVjQ2SDc3VjQySDc3VjQ2SDc5VjQySDgzVjQ2SDg3VjQySDg3VjQ2SDg5VjQySDkxVjQ2SDk1VjQySDk1VjQ2SDk5VjQySDk5VjQ2SDEwM1Y0MkgxMDNWNDZIMTA3VjQySHpNNjcgNjVIMTE5VjY5SDE0M1Y3M0gxMjdWNzdIMTE5Vjc5SDExNVY4MUgxMTFWODNIMTA3Vjg1SDEwM1Y4N0g5OVY4OUg5NVY5MUg5MVY5M0g4N1Y5NUg4M1Y5N0g3OVY5OUg3NVYxMDFINzFWMTAzSDY3VjEwNUg2M1YxMDdINTlWMTA5SDU1VjExMUg1MVYxMTNINDdWMTE1SDQzVjExN0gzOVYxMTlIMzVWMTIxSDMxVjEyM0gyN1YxMjVIMjNWMTI3SDE5VjEyNUgxNVYxMjNIMTFWMTIxSDdWMTE5SDNWMTE3SDE=" alt="" height="64">
+                </div>
+                <p class="empty-title">No products found</p>
+                <p class="empty-subtitle text-muted">
+                    The shop is currently empty. Please check back later or contact the administrator.
+                </p>
+                <div class="empty-action">
+                    <a href="{{ path('admin_dashboard') }}" class="btn btn-primary">
+                        <i class="ti ti-plus"></i>
+                        Add Products
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

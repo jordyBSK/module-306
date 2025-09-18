@@ -1,0 +1,256 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checkout - Football Shop{% endblock %}
+
+{% block body %}
+<div class="page-header d-print-none">
+    <div class="container-xl">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    Checkout
+                </h2>
+                <div class="text-muted mt-1">Complete your purchase</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row">
+            <div class="col-lg-8">
+                <form action="{{ path('process_payment') }}" method="post" id="payment-form">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Payment Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Payment Method</label>
+                                        <div class="form-selectgroup">
+                                            <label class="form-selectgroup-item">
+                                                <input type="radio" name="payment_method" value="credit_card" class="form-selectgroup-input" checked>
+                                                <span class="form-selectgroup-label">
+                                                    <i class="ti ti-credit-card me-2"></i>
+                                                    Credit Card
+                                                </span>
+                                            </label>
+                                            <label class="form-selectgroup-item">
+                                                <input type="radio" name="payment_method" value="paypal" class="form-selectgroup-input">
+                                                <span class="form-selectgroup-label">
+                                                    <i class="ti ti-brand-paypal me-2"></i>
+                                                    PayPal
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="credit-card-fields">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Card Number</label>
+                                            <input type="text" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Expiry Date</label>
+                                            <input type="text" class="form-control" placeholder="MM/YY" maxlength="5">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">CVV</label>
+                                            <input type="text" class="form-control" placeholder="123" maxlength="3">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Cardholder Name</label>
+                                            <input type="text" class="form-control" placeholder="John Doe">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="paypal-fields" style="display: none;">
+                                <div class="alert alert-info">
+                                    <i class="ti ti-info-circle"></i>
+                                    You will be redirected to PayPal to complete your payment.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Billing Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Address</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">City</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Postal Code</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Order Summary</h3>
+                    </div>
+                    <div class="card-body">
+                        {% for item in cartItems %}
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <div class="font-weight-medium">{{ item.product.name }}</div>
+                                    <div class="text-muted small">{{ item.product.team }} - Size {{ item.product.size }} × {{ item.quantity }}</div>
+                                </div>
+                                <div class="text-muted">
+                                    €{{ item.totalPrice|number_format(2, '.', ',') }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between">
+                            <div class="text-muted">Subtotal</div>
+                            <div class="text-muted">€{{ total|number_format(2, '.', ',') }}</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="text-muted">Shipping</div>
+                            <div class="text-muted">Free</div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div class="text-muted">Tax</div>
+                            <div class="text-muted">€0.00</div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between">
+                            <div class="h4 mb-0">Total</div>
+                            <div class="h4 mb-0">€{{ total|number_format(2, '.', ',') }}</div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-grid">
+                            <button type="submit" form="payment-form" class="btn btn-primary btn-lg">
+                                <i class="ti ti-lock"></i>
+                                Complete Payment
+                            </button>
+                        </div>
+                        <div class="d-grid mt-2">
+                            <a href="{{ path('cart') }}" class="btn btn-outline-secondary">
+                                <i class="ti ti-arrow-left"></i>
+                                Back to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <i class="ti ti-shield-check text-success me-2"></i>
+                            <div>
+                                <div class="font-weight-medium">Secure Payment</div>
+                                <div class="text-muted small">Your payment information is encrypted and secure</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentMethodInputs = document.querySelectorAll('input[name="payment_method"]');
+    const creditCardFields = document.getElementById('credit-card-fields');
+    const paypalFields = document.getElementById('paypal-fields');
+
+    paymentMethodInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            if (this.value === 'credit_card') {
+                creditCardFields.style.display = 'block';
+                paypalFields.style.display = 'none';
+            } else if (this.value === 'paypal') {
+                creditCardFields.style.display = 'none';
+                paypalFields.style.display = 'block';
+            }
+        });
+    });
+
+    // Format card number input
+    const cardNumberInput = document.querySelector('input[placeholder="1234 5678 9012 3456"]');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
+        });
+    }
+
+    // Format expiry date input
+    const expiryInput = document.querySelector('input[placeholder="MM/YY"]');
+    if (expiryInput) {
+        expiryInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '').replace(/(.{2})/, '$1/');
+        });
+    }
+
+    // CVV input only numbers
+    const cvvInput = document.querySelector('input[placeholder="123"]');
+    if (cvvInput) {
+        cvvInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    }
+});
+</script>
+{% endblock %}
